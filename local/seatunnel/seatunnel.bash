@@ -2,7 +2,7 @@ local:
 
 /opt/apache-seatunnel-2.3.10/bin/seatunnel.sh \
 -m local \
--c /home/Data.Eng/jagger/local/seatunnel/config/kafka2paimon.protobuf.stream.conf
+-c /home/jagger.luo/datalake-poc/local/seatunnel/config/kafka2paimon.protobuf.stream.conf
 
 
 CREATE CATALOG paimon_catalog WITH (
