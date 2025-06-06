@@ -34,7 +34,7 @@ services:
     volumes:
       - ./config:/config
       - /tmp/paimon/seatunnel/:/tmp/paimon/seatunnel/
-      - ~/repo:/repo
+      - ~/resource:/resource
       - ~/flink/flink-1.20.1:/opt/flink
 
   # MinIO service - provides S3 compatible object storage
