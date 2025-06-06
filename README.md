@@ -1,2 +1,2 @@
-# datalake-poc
-paimon &amp; iceberg
+# paimon-poc
+datalake poc - paimon
