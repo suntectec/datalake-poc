@@ -73,7 +73,7 @@ services:
     networks:
       - test-net
     volumes:
-      - /home/jagger.luo/datalake-poc/plugins/:/opt/flink/lib/plugins/
+      - /home/jagger.luo/paimon-poc/p`lugins/:/opt/flink/lib/plugins/
     depends_on:
       - minio
 
@@ -90,7 +90,7 @@ services:
     networks:
       - test-net
     volumes:
-      - /home/jagger.luo/datalake-poc/plugins/:/opt/flink/lib/plugins/
+      - /home/jagger.luo/paimon-poc/plugins/:/opt/flink/lib/plugins/
     depends_on:
       - flink-jobmanager
 
@@ -107,7 +107,7 @@ services:
     networks:
       - test-net
     volumes:
-      - /home/jagger.luo/datalake-poc/plugins/:/opt/flink/lib/plugins/
+      - /home/jagger.luo/paimon-poc/plugins/:/opt/flink/lib/plugins/
     depends_on:
       - flink-jobmanager
 
