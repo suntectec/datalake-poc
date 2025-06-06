@@ -27,14 +27,13 @@ set 'table.exec.sink.not-null-enforcer'='DROP';
 
 SET 'execution.checkpointing.interval' = '5 s';
 
--- switch to streaming mode
+# switch to streaming mode
 SET 'execution.runtime-mode' = 'streaming';
--- use tableau result mode
+# use tableau result mode
 SET 'sql-client.execution.result-mode' = 'tableau';
 
--- switch to batch mode
+# switch to batch mode
 RESET 'execution.checkpointing.interval';
 SET 'execution.runtime-mode' = 'batch';
 
 SELECT id,order_id,supplier_id,item_id,qty FROM seatunnel_sqlserver_paimon_sink where id = 247048;
-
