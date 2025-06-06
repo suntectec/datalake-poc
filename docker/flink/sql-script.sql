@@ -3,11 +3,11 @@ export AWS_ACCESS_KEY_ID=minioadmin
 export AWS_SECRET_ACCESS_KEY=minioadmin
 
 DROP CATALOG paimon_catalog;
--- 创建目录
+
 CREATE CATALOG paimon_catalog WITH (
   'type'='paimon',
-  'warehouse'='s3://sqlserver/flinkcdc/',
-  's3.endpoint'='http://minio:9000',
+  'warehouse'='s3://paimon/',
+  's3.endpoint'='http://192.168.138.15:9000',
   's3.access-key'='minioadmin',
   's3.secret-key'='minioadmin',
   's3.path.style.access'='true'

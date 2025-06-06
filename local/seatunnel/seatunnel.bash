@@ -8,7 +8,7 @@ local:
 CREATE CATALOG paimon_catalog WITH (
   'type'='paimon',
   'warehouse'='s3a://warehouse/paimon/seatunnel/',
-  's3.endpoint'='http://minio:9000',
+  's3.endpoint'='http://192.168.138.15:9000',
   's3.access-key'='minioadmin',
   's3.secret-key'='minioadmin',
   's3.path.style.access'='true'
