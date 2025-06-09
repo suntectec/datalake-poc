@@ -2,12 +2,14 @@
 export AWS_ACCESS_KEY_ID=minioadmin
 export AWS_SECRET_ACCESS_KEY=minioadmin
 
+-- flink/bin/sql-client.sh embedded [shell]
+
 DROP CATALOG paimon_catalog;
 
 CREATE CATALOG paimon_catalog WITH (
   'type'='paimon',
   'warehouse'='s3://paimon/',
-  's3.endpoint'='http://192.168.138.15:9000',
+  's3.endpoint'='http://192.168.138.15:9900',
   's3.access-key'='minioadmin',
   's3.secret-key'='minioadmin',
   's3.path.style.access'='true'
@@ -15,9 +17,9 @@ CREATE CATALOG paimon_catalog WITH (
 
 USE CATALOG paimon_catalog;
 
-CREATE DATABASE IF NOT EXISTS paimon;
+CREATE DATABASE IF NOT EXISTS inventory;
 
-USE paimon;
+USE inventory;
 
 -- register a SqlServer table in Flink SQL
 CREATE TEMPORARY TABLE sqlserver_source (
@@ -49,7 +51,6 @@ SELECT * FROM sqlserver_source;
 
 SELECT count(*) FROM sqlserver_source;
 
-
 CREATE TABLE IF NOT EXISTS orders (
     id BIGINT,
     order_id VARCHAR(36),
@@ -66,9 +67,9 @@ CREATE TABLE IF NOT EXISTS orders (
     PRIMARY KEY (id) NOT ENFORCED
 );
 
-
+-- required set before submit insert job, otherwise data not observe
+-- execution.checkpointing.interval: default - none, The base interval setting. To enable checkpointing, you need to set this value larger than 0.
 SET 'execution.checkpointing.interval' = '5 s';
-
 
 INSERT INTO orders SELECT * FROM sqlserver_source;
 
@@ -81,16 +82,17 @@ SELECT id,order_id,supplier_id,qty FROM orders where id in (1,40);
 
 -- switch to streaming mode
 SET 'execution.runtime-mode' = 'streaming';
--- use tableau result mode
-SET 'sql-client.execution.result-mode' = 'tableau';
-
 -- switch to batch mode
-RESET 'execution.checkpointing.interval';
 SET 'execution.runtime-mode' = 'batch';
+-- use tableau result mode
+SET 'sql-client.execution.result-mode' = 'TABLE';
+SET 'sql-client.execution.result-mode' = 'CHANGELOG';
+SET 'sql-client.execution.result-mode' = 'tableau';
+-- or RESET
+RESET 'execution.checkpointing.interval';
 
 -- track the changes of table and calculate the count interval statistics
 SELECT `status`, SUM(qty) AS qty_total FROM orders GROUP BY `status`;
-
 
 
 -- Way 2 - Not Catalog
@@ -118,9 +120,9 @@ CREATE TABLE orders (
       'auto-create' = 'true'
       );
 
-INSERT INTO orders SELECT * FROM sqlserver_source;
-
 SET 'execution.checkpointing.interval' = '5 s';
+
+INSERT INTO orders SELECT * FROM sqlserver_source;
 
 -- read
 SELECT * FROM sqlserver_source;

@@ -75,7 +75,7 @@ services:
     networks:
       - test-net
     volumes:
-      - ./flink-plugins/:/opt/flink/lib/plugins/
+      - ./flink-plugins:/opt/flink/lib/plugins
     depends_on:
       - minio
 
@@ -92,7 +92,7 @@ services:
     networks:
       - test-net
     volumes:
-      - ./flink-plugins/:/opt/flink/lib/plugins/
+      - ./flink-plugins:/opt/flink/lib/plugins
     depends_on:
       - jobmanager
 
@@ -109,7 +109,7 @@ services:
     networks:
       - test-net
     volumes:
-      - ./flink-plugins/plugins/:/opt/flink/lib/plugins/
+      - ./flink-plugins:/opt/flink/lib/plugins
     depends_on:
       - jobmanager
 
