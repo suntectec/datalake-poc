@@ -23,6 +23,8 @@ services:
   seatunnel:
     image: apache/seatunnel:2.3.10
     container_name: paimon_poc.seatunnel
+    ports:
+      - 8880:8080
     command: tail -f /dev/null
     user: root
     networks:
