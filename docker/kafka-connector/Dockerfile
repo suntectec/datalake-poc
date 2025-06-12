@@ -1,4 +1,4 @@
-FROM confluentinc/cp-server-connect:7.6.0
+FROM confluentinc/cp-server-connect:7.8.0
 
 # Switch to root user to install packages
 USER root
@@ -8,11 +8,11 @@ RUN yum update -y && \
     yum install -y java-17-openjdk-devel unzip && \
     yum clean all
 
-# Online Installing connector plugins 
+# Online Installing connector plugins
 RUN confluent-hub install --no-prompt confluentinc/kafka-connect-jdbc:10.8.0 && \
     curl -L "https://repo1.maven.org/maven2/com/mysql/mysql-connector-j/9.1.0/mysql-connector-j-9.1.0.jar" -o /usr/share/confluent-hub-components/confluentinc-kafka-connect-jdbc/lib/mysql-connector-j-9.1.0.jar && \
     confluent-hub install --no-prompt debezium/debezium-connector-sqlserver:2.5.4 && \
-    confluent-hub install --no-prompt jcustenborder/kafka-connect-spooldir:2.0.65
+    confluent-hub install --no-prompt confluentinc/kafka-connect-sftp:3.2.14
 
 # Offline Installing connector plugins
 # Debezium MySQL Connector version 3.0.8
