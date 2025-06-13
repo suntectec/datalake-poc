@@ -36,6 +36,7 @@ services:
       - ./resource:/resource
       - ./flink/flink-1.20.1:/opt/flink
       - ./seatunnel-plugins:/opt/seatunnel/plugins
+      - ./config/seatunnel.yaml:/opt/seatunnel/config/seatunnel.yaml
 
   # MinIO service - provides S3 compatible object storage
   minio:

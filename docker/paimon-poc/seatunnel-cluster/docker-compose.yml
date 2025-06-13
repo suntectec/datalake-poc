@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  master:
+    image: apache/seatunnel
+    container_name: seatunnel_master
+    environment:
+      - ST_DOCKER_MEMBER_LIST=seatunnel_master,seatunnel_worker_1,seatunnel_worker_2
+    entrypoint: >
+      /bin/sh -c "
+      /opt/seatunnel/bin/seatunnel-cluster.sh -r master
+      "
+    ports:
+      - "5801:5801"
+      - "8800:8080"
+    networks:
+      - pub-network
+
+  worker1:
+    image: apache/seatunnel
+    container_name: seatunnel_worker_1
+    environment:
+      - ST_DOCKER_MEMBER_LIST=seatunnel_master,seatunnel_worker_1,seatunnel_worker_2
+    entrypoint: >
+      /bin/sh -c "
+      /opt/seatunnel/bin/seatunnel-cluster.sh -r worker
+      "
+    depends_on:
+      - master
+    networks:
+      - pub-network
+
+  worker2:
+    image: apache/seatunnel
+    container_name: seatunnel_worker_2
+    environment:
+      - ST_DOCKER_MEMBER_LIST=seatunnel_master,seatunnel_worker_1,seatunnel_worker_2
+    entrypoint: >
+      /bin/sh -c "
+      /opt/seatunnel/bin/seatunnel-cluster.sh -r worker
+      "
+    depends_on:
+      - master
+    networks:
+      - pub-network
+
+networks:
+  pub-network:
+    external: true

@@ -202,7 +202,7 @@ services:
       - broker1
       - schema-registry
       - connect-01
-    command: "bash -c 'echo Waiting for Kafka to be ready... && \
+    command: ".bash -c 'echo Waiting for Kafka to be ready... && \
                        cub kafka-ready -b broker1:29092 1 40 && \
                        echo Waiting for Confluent Schema Registry to be ready... && \
                        cub sr-ready schema-registry 8081 40 && \
