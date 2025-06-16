@@ -1,4 +1,4 @@
-package com.datalakepoc.test;
+package com.datalakepoc.app;
 
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.EnvironmentSettings;

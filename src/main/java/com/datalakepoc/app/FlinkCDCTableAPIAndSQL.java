@@ -1,4 +1,4 @@
-package com.datalakepoc.test;
+package com.datalakepoc.app;
 
 import org.apache.flink.connector.datagen.table.DataGenConnectorOptions;
 import org.apache.flink.table.api.*;

@@ -7,7 +7,7 @@ import org.apache.flink.cdc.connectors.sqlserver.source.SqlServerSourceBuilder.S
 import org.apache.flink.cdc.debezium.JsonDebeziumDeserializationSchema;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
-public class FlinkCDCReadSQLServer {
+public class FlinkCDCSqlServerIncrementalSourceDemo {
     public static void main(String[] args) throws Exception {
         SqlServerIncrementalSource<String> sqlServerSource =
                 new SqlServerSourceBuilder()

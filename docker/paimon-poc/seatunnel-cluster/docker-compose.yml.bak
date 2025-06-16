@@ -5,23 +5,22 @@ services:
     image: apache/seatunnel
     container_name: seatunnel_master
     environment:
-      - ST_DOCKER_MEMBER_LIST=172.16.0.2,172.16.0.3,172.16.0.4
+      - ST_DOCKER_MEMBER_LIST=seatunnel_master,seatunnel_worker_1,seatunnel_worker_2
     entrypoint: >
       /bin/sh -c "
       /opt/seatunnel/bin/seatunnel-cluster.sh -r master
       "
     ports:
       - "5801:5801"
-      - "8080:8080"
+      - "8800:8080"
     networks:
-      seatunnel_network:
-        ipv4_address: 172.16.0.2
+      - pub-network
 
   worker1:
     image: apache/seatunnel
     container_name: seatunnel_worker_1
     environment:
-      - ST_DOCKER_MEMBER_LIST=172.16.0.2,172.16.0.3,172.16.0.4
+      - ST_DOCKER_MEMBER_LIST=seatunnel_master,seatunnel_worker_1,seatunnel_worker_2
     entrypoint: >
       /bin/sh -c "
       /opt/seatunnel/bin/seatunnel-cluster.sh -r worker
@@ -29,14 +28,13 @@ services:
     depends_on:
       - master
     networks:
-      seatunnel_network:
-        ipv4_address: 172.16.0.3
+      - pub-network
 
   worker2:
     image: apache/seatunnel
     container_name: seatunnel_worker_2
     environment:
-      - ST_DOCKER_MEMBER_LIST=172.16.0.2,172.16.0.3,172.16.0.4
+      - ST_DOCKER_MEMBER_LIST=seatunnel_master,seatunnel_worker_1,seatunnel_worker_2
     entrypoint: >
       /bin/sh -c "
       /opt/seatunnel/bin/seatunnel-cluster.sh -r worker
@@ -44,12 +42,8 @@ services:
     depends_on:
       - master
     networks:
-      seatunnel_network:
-        ipv4_address: 172.16.0.4
+      - pub-network
 
 networks:
-  seatunnel_network:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.16.0.0/24
+  pub-network:
+    external: true

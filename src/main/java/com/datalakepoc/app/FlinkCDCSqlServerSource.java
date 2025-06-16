@@ -1,11 +1,11 @@
-package com.datalakepoc.test;
+package com.datalakepoc.app;
 
 import org.apache.flink.cdc.connectors.sqlserver.SqlServerSource;
 import org.apache.flink.cdc.debezium.JsonDebeziumDeserializationSchema;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;
 
-public class FlinkCDCReadSQLServer {
+public class FlinkCDCSqlServerSource {
     public static void main(String[] args) throws Exception {
         SourceFunction<String> sourceFunction = SqlServerSource.<String>builder()
                 .hostname("dev-ds-trm01.tailb6e5ab.ts.net")
