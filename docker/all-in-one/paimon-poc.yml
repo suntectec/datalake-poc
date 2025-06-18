@@ -1,0 +1,88 @@
+name: paimon-poc
+
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-CU15-ubuntu-22.04
+    hostname: paimon-poc
+    container_name: paimon-poc.mssql
+    ports:
+      - 14330:1433
+    user: root
+    restart: no
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_MEMORY_LIMIT_MB: 2048
+      MSSQL_AGENT_ENABLED: 1
+      MSSQL_SA_PASSWORD: ${DB_PASSWORD}
+      MSSQL_PID: Developer
+      MSSQL_BACKUP_DIR: /var/opt/mssql/backups
+      MSSQL_LCID: 1033
+      TZ: Asia/Macau
+    volumes:
+      - mssql-data:/var/opt/mssql/data
+
+  master:
+    image: apache/seatunnel
+    container_name: seatunnel_master
+    environment:
+      - ST_DOCKER_MEMBER_LIST=172.16.0.2,172.16.0.3,172.16.0.4
+    entrypoint: >
+      /bin/sh -c "
+      /opt/seatunnel/bin/seatunnel-cluster.sh -r master
+      "
+    ports:
+      - "15801:5801"
+    networks:
+      seatunnel_network:
+        ipv4_address: 172.16.0.2
+    volumes:
+      - ./config:/config
+      - ./flink/flink-1.20.1:/opt/flink
+
+  worker1:
+    image: apache/seatunnel
+    container_name: seatunnel_worker_1
+    environment:
+      - ST_DOCKER_MEMBER_LIST=172.16.0.2,172.16.0.3,172.16.0.4
+    entrypoint: >
+      /bin/sh -c "
+      /opt/seatunnel/bin/seatunnel-cluster.sh -r worker
+      "
+    depends_on:
+      - master
+    networks:
+      seatunnel_network:
+        ipv4_address: 172.16.0.3
+    volumes:
+      - ./config:/config
+      - ./flink/flink-1.20.1:/opt/flink
+
+  worker2:
+    image: apache/seatunnel
+    container_name: seatunnel_worker_2
+    environment:
+      - ST_DOCKER_MEMBER_LIST=172.16.0.2,172.16.0.3,172.16.0.4
+    entrypoint: >
+      /bin/sh -c "
+      /opt/seatunnel/bin/seatunnel-cluster.sh -r worker
+      "
+    depends_on:
+      - master
+    networks:
+      seatunnel_network:
+        ipv4_address: 172.16.0.4
+    volumes:
+      - ./config:/config
+      - ./flink/flink-1.20.1:/opt/flink
+
+networks:
+  default:
+    name: paimon-poc-net
+  seatunnel_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.0.0/24
+
+volumes:
+  mssql-data:
