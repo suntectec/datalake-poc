@@ -1,0 +1,30 @@
+name: scratch-mssql
+
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-CU15-ubuntu-22.04
+    hostname: scratch-mssql
+    container_name: paimon-poc.scratch-mssql
+    ports:
+      - 14330:1433
+    user: root
+    restart: no
+#    env_file: .env
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_MEMORY_LIMIT_MB: 2048
+      MSSQL_AGENT_ENABLED: 1
+      MSSQL_SA_PASSWORD: ${SA_PASSWORD}
+      MSSQL_PID: Developer
+      MSSQL_BACKUP_DIR: /var/opt/mssql/backups
+      MSSQL_LCID: 1033
+      TZ: Asia/Macau
+    volumes:
+      - scratch-mssql-data:/var/opt/mssql/data
+
+networks:
+  default:
+    name: scratch-mssql-net
+
+volumes:
+  scratch-mssql-data:
