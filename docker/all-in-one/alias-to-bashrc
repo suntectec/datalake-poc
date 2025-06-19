@@ -1,2 +1,2 @@
-echo "alias dockerpaimonpoc='cd /home/jagger.luo/paimon-poc/docker/all-in-one/ && docker compose -f paimon-poc.yml '" >> ~/.bashrc
+echo "alias dockerpaimonpoc='cd /home/jagger.luo/paimon-poc/docker/all-in-one/ && docker compose -f docker-compose-paimon-poc.yml '" >> ~/.bashrc
 source ~/.bashrc

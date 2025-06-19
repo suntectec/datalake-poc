@@ -33,9 +33,9 @@ services:
       - sqlserver
     volumes:
       - ./config:/config
-      - ./resource:/resource
-      - ./flink/flink-1.20.1:/opt/flink
-      - ./seatunnel-plugins:/opt/seatunnel/plugins
+      - ~/resource:/resource
+      - ~/flink/flink-1.20.1:/opt/flink
+      - ~/seatunnel-plugins:/opt/seatunnel/plugins
       - ./seatunnel.yaml:/opt/seatunnel/config/seatunnel.yaml
 
   # MinIO service - provides S3 compatible object storage
@@ -76,7 +76,7 @@ services:
     networks:
       - test-net
     volumes:
-      - ./flink-plugins:/opt/flink/lib/plugins
+      - ~/flink-plugins:/opt/flink/lib/plugins
     depends_on:
       - minio
 
@@ -93,7 +93,7 @@ services:
     networks:
       - test-net
     volumes:
-      - ./flink-plugins:/opt/flink/lib/plugins
+      - ~/flink-plugins:/opt/flink/lib/plugins
     depends_on:
       - jobmanager
 
@@ -110,7 +110,7 @@ services:
     networks:
       - test-net
     volumes:
-      - ./flink-plugins:/opt/flink/lib/plugins
+      - ~/flink-plugins:/opt/flink/lib/plugins
     depends_on:
       - jobmanager
 

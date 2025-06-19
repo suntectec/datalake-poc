@@ -37,7 +37,7 @@ services:
         ipv4_address: 172.16.0.2
     volumes:
       - ./config:/config
-      - ./flink/flink-1.20.1:/opt/flink
+      - ~/flink/flink-1.20.1:/opt/flink
 
   worker1:
     image: apache/seatunnel
@@ -55,7 +55,7 @@ services:
         ipv4_address: 172.16.0.3
     volumes:
       - ./config:/config
-      - ./flink/flink-1.20.1:/opt/flink
+      - ~/flink/flink-1.20.1:/opt/flink
 
   worker2:
     image: apache/seatunnel
@@ -73,7 +73,7 @@ services:
         ipv4_address: 172.16.0.4
     volumes:
       - ./config:/config
-      - ./flink/flink-1.20.1:/opt/flink
+      - ~/flink/flink-1.20.1:/opt/flink
 
 networks:
   default:
